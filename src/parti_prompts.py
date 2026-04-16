@@ -468,7 +468,7 @@ async def run_model(model, prompt):
         arguments={
             "prompt": prompt,
             **params,
-            "enable_safety_checker": True,
+            "enable_safety_checker": False,
             "sync_mode": False,
             "format": "png",
             "safety_checker_version": "v2",
@@ -500,13 +500,7 @@ async def prepare_sample(prompt, supabase_client, model_weights):
             traceback.print_exc()
             print("Error!!!")
             return
-
-    has_nsfw_concepts_a = result_a.get("has_nsfw_concepts", [False])
-    has_nsfw_concepts_b = result_b.get("has_nsfw_concepts", [False])
-    if has_nsfw_concepts_a[0] or has_nsfw_concepts_b[0]:
-        print("NSFW")
-        return
-
+    
     image_a = result_a["images"][0]["url"]
     image_b = result_b["images"][0]["url"]
     if image_a.startswith("data:") or image_b.startswith("data:"):
